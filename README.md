@@ -1,7 +1,7 @@
 # READ ME
 
-#edit a CMTS_data.txt to input data
-#Use searchCMT to collect data to put in the CMTS_data.txt file
+#edit a ANSS_data.txt to input data
+#Use searchANSS to collect data to put in the CMTS_data.txt file
 #remember to run in rtergpy environment
 
 # ATTENUATION
