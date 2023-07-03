@@ -1,8 +1,14 @@
 # READ ME
 
-#edit a ANSS_data.txt to input data
-#Use searchANSS to collect data to put in the CMTS_data.txt file
+#edit an ANSS_data.txt to input data
+#Use searchANSS to collect data to put in the ANSS_data.txt file
 #remember to run in rtergpy environment
+
+# Processing ANSS
+#done by function processANSS, 
+#removes last two columns, prints with header, seperates everything by commas
+#creates a modified csv file
+
 
 # ATTENUATION
 
