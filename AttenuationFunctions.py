@@ -30,7 +30,7 @@ def processANSS():
     
     modified_lines.insert(0, header)
 
-    # Write the modified data to a CSV file
+    # Write the modified data to a CSV file (Could use pickle instead for better information storage) .pkl
     with open('ANSS_processed_data.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerows(modified_lines)

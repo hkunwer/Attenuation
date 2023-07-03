@@ -57,7 +57,8 @@ Event.ecount='00'
 edateold=""
 processANSS() #process to remove unneccesary information
 ANSS=pd.read_csv('ANSS_processed_data.csv', sep=',', comment="#")
-for index, EQ in ANSS.iterrows():
+# run everything above to test on command line
+for index, EQ in ANSS.iterrows(): #check how this works specifically since this might be bug
     eloc = [EQ.LAT,EQ.LONG,EQ.DEPTH] 
     year,mo,dd = EQ.DATE.split('/')
     hh,mn,sec = EQ.TIME.split(':')
