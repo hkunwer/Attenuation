@@ -6,12 +6,12 @@
 
 # Processing ANSS
 #done by function processANSS, 
-#removes last two columns, prints with header, seperates everything by commas
-#creates a modified csv file
+#removes last two columns, prints with header, separates everything by commas
+#creates a modified CSV file
 
 
 # ATTENUATION
 
 #we are calculating the peak amplitude for individual frequency bands
-#we will then use this max amplitude along with geometric spreading estimate to get
+#we will then use this max amplitude along with a geometric spreading estimate to get
 #attenuation using the methods in Ismail et al 2023 and 2020 and McNamara et al 2014 as #guidance.
