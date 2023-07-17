@@ -1,2 +1,2 @@
-#Year-mo-dyThr:mn:seconds,Longitude,Latitude,Depth,Mtype,Mag
-2022-01-24T13:16:23.425,-73.3389,18.4578,10.00,mww,5.30
+Date,Time,Longitude,Latitude,Depth,Mtype,Mag
+2022-01-24,13:16:23.425,-73.3389,18.4578,10.00,mww,5.30

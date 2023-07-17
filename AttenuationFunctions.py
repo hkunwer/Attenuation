@@ -1,36 +1,38 @@
 # %%
-#rtergpy
-from rtergpy.run import defaults, event, etime2name, src2ergs
-
-#obspy
-from obspy import UTCDateTime
-from obspy import read
-from obspy import read_inventory
-
-import pandas as pd 
-
 import csv
+import numpy as np
+from scipy.fftpack import fft,ifft
 
 def processANSS():
 
-        # Read the data from the file
+    # Read the data from the file
     with open('ANSS_data.txt', 'r') as file:
         lines = file.readlines()
 
     # Remove the header line
-    header = lines[0].strip().split()[:-3]
+    header = lines[0].strip().split()[1:-3]  # Exclude the last two columns
+    #comment = ['#']
+    header = ['Date', 'Time'] + header
     lines = lines[1:]
 
     # Modify the data
     modified_lines = []
     for line in lines:
         columns = line.split()
-        modified_line = columns[0:6]
+
+        # Extracting the date and time from the first column
+        first_column = columns[0]
+        date, time = first_column.split('T')
+
+        modified_line = [date, time] + columns[1:6]  # Exclude the last two columns
         modified_lines.append(modified_line)
-    
+
     modified_lines.insert(0, header)
 
     # Write the modified data to a CSV file (Could use pickle instead for better information storage) .pkl
+    #with open('ANSS_processed_data.pkl', 'wb') as file:
+        #pkl.dump(modified_lines, file)
+
     with open('ANSS_processed_data.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerows(modified_lines)
