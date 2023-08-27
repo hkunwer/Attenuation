@@ -24,11 +24,11 @@ from obspy.geodetics.base import kilometers2degrees as km2d
 from obspy.geodetics.base import gps2dist_azimuth as ll2az
 
 #rtergpy
-from rtergpy.run import defaults, event, etime2name
+from rtergpy.run import defaults, event, etime2name, src2ergs
 from rtergpy.waveforms import getwaves
 
 #attenuation
-from AttenuationFunctions import processANSS, freqmaxes
+from Drafts.AttenuationFunctionsTest import processANSS, freqmaxes
 
 # %%
 # Processing and Reading information about event stored in ANSS_data.txt
@@ -42,7 +42,7 @@ Defaults.stationrange=[1.,10.]
 Event.ecount='00'
 Event.iter='RS'
 # Event.newData = False   # use already downloaded data
-Event.newData=True
+Event.newData=False
 edateold=""
 
 processANSS() #process to remove unneccesary information
@@ -76,6 +76,7 @@ for index, EQ in ANSS.iterrows():
 
     print("\n\n"+Event.eventname+" ===============================")
     try:
+        st, df = [], []
         st, df = getwaves(Defaults=Defaults,Event=Event)
     except:
         print("ERROR: running on "+Event.eventname+" failed!!!!\n\n")
@@ -84,7 +85,7 @@ for index, EQ in ANSS.iterrows():
 
 taper=0.05
 
-stp=st.copy()  # create backup
+stp = st.copy()  # create backup
 # process data
 stp.detrend(type='polynomial', order=5) # pre-instrument removal
 stp.taper(taper)
@@ -116,7 +117,7 @@ stp_freq4.filter("bandpass", freqmin=0.75, freqmax=1.0)
 
 # freq5 band = 1-1.25
 stp_freq5 = stp.copy()
-stp_freq5.filter("bandpass", freqmin=1, freqmax=1.25)
+stp_freq5.filter("bandpass", freqmin=1.0, freqmax=1.25)
 
 #add all freq to a tuple
 stp_freqs = (stp_freq1,stp_freq2,stp_freq3,stp_freq4,stp_freq5)
@@ -124,40 +125,63 @@ stp_freqs = (stp_freq1,stp_freq2,stp_freq3,stp_freq4,stp_freq5)
 # %%
 # Plot all the wiggles, shows how frequency filtering works. 
 
-stp[0].plot(); #only instrument response removal
-stp_freq1[0].plot(); # bandpass filter of 0.1-0.25
-stp_freq2[0].plot(); # bandpass filter of 0.25-0.5
-stp_freq3[0].plot(); # bandpass filter of 0.5-0.75
-stp_freq4[0].plot(); # bandpass filter of 0.75-0.1
-stp_freq5[0].plot(); # bandpass filter of 1-1.25
+#stp[0].plot(); #only instrument response removal
+#stp_freq1[0].plot(); # bandpass filter of 0.1-0.25
+#stp_freq2[0].plot(); # bandpass filter of 0.25-0.5
+#stp_freq3[0].plot(); # bandpass filter of 0.5-0.75
+#stp_freq4[0].plot(); # bandpass filter of 0.75-0.1
+#stp_freq5[0].plot(); # bandpass filter of 1-1.25
 
 # %%
 # use freqmaxes function to get maxamps for all traces in one frequency band
-# compare the plots formed from the function above with previous tests in Appendix below
 
-ALLmaxamps, ALLidx_of_max_amps = [], []
+# Initialize lists to store center frequencies, maximum amplitudes, and indices for each stream
+all_center_frequencies = []
+all_max_amplitudes = []
 
+# Loop through each stream
 for st in stp_freqs:
 
+    maxamps_list = []  # Initialize empty list for max amplitudes of this stream
+    idx_of_max_amps_list = []  # Initialize empty list for indices of max amplitudes of this stream
+    center_frequencies_list = []  # Initialize empty list for center frequencies of this stream
+
+    # Loop through each trace within the stream
     for tr in st:
-        
-        # print(f"Now processing trace {tr}")
-        maxamps, idx_of_max_amps = freqmaxes(tr, freqs)
-        # print(maxamps, idx_of_max_amps) # to test if it worked
-        ALLmaxamps.append(maxamps)
-        ALLidx_of_max_amps.append(idx_of_max_amps)
-        # trname.append(tr)  # no need to save this...it'll get huuuuuuuge
-        # stname.append(st)
-       
-df = pd.DataFrame({"maxamps":ALLmaxamps, "idx of max amps":ALLidx_of_max_amps}) 
-# df
+        maxamps, idx_of_max_amps, center_frequencies = freqmaxes(tr, freqs)  # Calculate max amplitudes, discard indices
+        maxamps_list.extend(maxamps)  # Extend max amplitudes list for this stream
+        center_frequencies_list.extend(center_frequencies)  # Extend center frequencies list for this stream
+    
+    all_max_amplitudes.extend(maxamps_list)  # Extend max amplitudes list for all streams
 
-# Ask andy about help for how to plot them all together.
+# Create a DataFrame from the combined lists
+df_amps = pd.DataFrame({"Center Frequency": all_center_frequencies, "Max Amplitude": all_max_amplitudes})
 
+# Calculate offsets (assuming they are stored in ANSS DataFrame)
+offsets = ANSS["Distance"]  # Adjust column name if needed
 
+# Plotting
+plt.figure(figsize=(10, 6))
 
+# Loop through each frequency band and plot max amplitudes against offsets
+for freq_band_index, (st, freq_range) in enumerate(zip(stp_freqs, freqs)):
+    max_amplitudes_list = []  # Initialize empty list for max amplitudes
+    
+    # Loop through each trace within the frequency band
+    for tr in st:
+        maxamps, _, _ = freqmaxes(tr, [freq_range])  # Calculate max amplitudes for the specific frequency band
+        max_amplitudes_list.extend(maxamps)  # Extend max amplitudes list for this trace
+    
+    # Scatter plot for max amplitudes against offsets
+    plt.scatter(offsets, max_amplitudes_list, marker='o', label=f"Freq Band {freq_band_index + 1}")
 
+# Common labels and title
+plt.xlabel("Offset / Distance")
+plt.ylabel("Max Amplitude")
+plt.title("Maximum Amplitude vs. Offset for Different Frequency Bands")
 
-
+plt.legend()
+plt.grid(True)
+plt.show()
 
 

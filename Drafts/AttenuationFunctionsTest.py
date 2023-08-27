@@ -43,10 +43,10 @@ def freqmaxes(trace, freqs):
     data = trace.data                           # the actual data
     samp = data.shape[-1]                       # number of sample point
     delta = trace.stats.delta                  # sample spacing 
-    time = trace.times()       
-                # time axis 
+    time = trace.times()                       # time axis 
+
     # ---- compute fft for our data
-    fftdata = np.fft.rfft(data, n=samp)
+    fftdata = np.fft.rfft(data, n=samp, t=time)
 
     # ---- Fdat has real and complex part, to compute power spectrum we take the
     fftdata_abs = np.abs(fftdata)
@@ -73,18 +73,3 @@ def freqmaxes(trace, freqs):
         idx_of_max_amps.append(idx_of_max_amp)
     
     return maxamps, idx_of_max_amps
-# need to fix this function so it actually works when called. Currently doing manually since 
-# shes rude right now
-def maximumAmplitude(stream):
-    
-    maxamps = [] 
-    dist_str = []
-
-    for tr in stream:
-
-        maxamp = np.max(abs(tr))
-        dist = tr.stats.distance / 1000
-        maxamps.append(maxamp)
-        dist_str.append(dist)
-        
-    return maxamps, dist_str
