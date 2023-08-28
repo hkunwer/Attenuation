@@ -2,6 +2,29 @@
 import csv
 import numpy as np
 from scipy.fftpack import fft,ifft
+# %%
+import os
+from locale import setlocale
+import pandas as pd 
+import matplotlib.pyplot as plt
+import numpy as np
+from numpy import sin,cos,arcsin,sqrt,abs,pi,log10,exp
+from scipy.fftpack import fft,ifft
+from scipy.io import wavfile
+from scipy.stats import gmean 
+from tqdm import tqdm
+from compress_pickle import dump as cpkldump # reading/writing compressed pickles
+from compress_pickle import load as cpklload # reading/writing compressed pickles
+
+#obspy
+from obspy import UTCDateTime
+
+from obspy.taup import TauPyModel
+model = TauPyModel(model="iasp91")
+
+#rtergpy
+from rtergpy.run import defaults, event, etime2name, src2ergs
+from rtergpy.waveforms import getwaves, get_respinv
 
 def processANSS():
 
@@ -75,12 +98,17 @@ def freqmaxes(trace, freqs):
     return maxamps, idx_of_max_amps
 # need to fix this function so it actually works when called. Currently doing manually since 
 # shes rude right now
-def maximumAmplitude(stream):
+def maximumAmplitude(stream, frequencymin, frequencymax):
     
+    stp_freq = stream.copy()
+    stp_freq.filter("bandpass",freqmin=frequencymin , freqmax= frequencymax)
+
+    # stp_freq[0].plot();
+
     maxamps = [] 
     dist_str = []
 
-    for tr in stream:
+    for tr in stp_freq:
 
         maxamp = np.max(abs(tr))
         dist = tr.stats.distance / 1000
