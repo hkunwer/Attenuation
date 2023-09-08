@@ -107,12 +107,77 @@ def maximumAmplitude(stream, frequencymin, frequencymax):
 
     maxamps = [] 
     dist_str = []
+    station_name = []
 
     for tr in stp_freq:
 
         maxamp = np.max(abs(tr))
         dist = tr.stats.distance / 1000
+        station = tr.stats.station
         maxamps.append(maxamp)
         dist_str.append(dist)
+        station_name.append(station)
         
-    return maxamps, dist_str
+    return station_name, maxamps, dist_str
+
+def process_frequency_bands(stream, freqlist):
+    
+    #freqlist = [(0.10, 0.25),(0.25, 0.50),(0.50, 0.75),(0.75, 1.00),(1.00, 1.25)]
+    maxamps = []
+    dist_str = []
+    station_name = []
+    frequencies = []
+
+    for freq_range in freqlist:
+        
+        frequencymin, frequencymax = freq_range
+        
+        stp_freq = stream.copy()
+        stp_freq.filter("bandpass", freqmin=frequencymin, freqmax=frequencymax)
+
+        for tr in stp_freq:
+            maxamp = np.max(abs(tr))
+            dist = tr.stats.distance / 1000
+            station = tr.stats.station
+            maxamps.append(maxamp)
+            dist_str.append(dist)
+            station_name.append(station)
+            frequencies.append(freq_range)
+  
+    df_freq = pd.DataFrame({"maxamps":maxamps,"distance":dist_str,"station":station_name, "frequency":frequencies}) 
+    return df_freq
+
+def organize_data(df_freq, EQ, etime,eloc):          
+            
+    stations = []
+    distances = []
+    event_dates = []
+    magnitudes = []
+    magnitude_types = []
+    max_amplitudes = []
+    frequency_bands = []
+    event_location = []
+
+    for station, distance, max_amp, freq_range in zip(df_freq['station'], df_freq['distance'], df_freq['maxamps'], df_freq['frequency']):
+        stations.append(station)
+        distances.append(distance)
+        event_dates.append(etime)
+        event_location.append(eloc)
+        magnitudes.append(EQ.Mag)
+        magnitude_types.append(EQ.Mtype)
+        max_amplitudes.append(max_amp)
+        frequency_bands.append(freq_range)
+
+    data = {
+        'station name': stations,
+        'distance': distances,
+        'event': event_dates,
+        'location':event_location,
+        'magnitude of event': magnitudes,
+        'type of magnitude': magnitude_types,
+        'max amplitude': max_amplitudes,
+        'frequency band': frequency_bands
+    }
+
+    df_final = pd.DataFrame(data)
+    return df_final
