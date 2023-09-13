@@ -11,9 +11,10 @@ from AttenuationFunctions import processANSS, filtering, maxamp_calc, organize_d
 # Processing and Reading information about event stored in ANSS_data.txt
 Defaults = defaults()
 Event = event()
-Defaults.src="RASPISHAKE"
-Defaults.network="AM"
-Defaults.chan="EHZ"
+
+Defaults.src='RASPISHAKE'
+Defaults.network='AM'
+Defaults.chan='EHZ'
 Defaults.stationrange=[1.,10.]
 Event.ecount='00'
 Event.iter='RS'
@@ -21,9 +22,6 @@ Event.newData = False   # False means use already downloaded data
 edateold=""
 ANSS = processANSS() 
 for index, EQ in ANSS.iterrows(): #organizing data to use details
-    network = "AM"
-    chan = "EHZ"
-    src = "RASPISHAKE"
     rads = [1.,10.]
     eloc = [EQ.Latitude,EQ.Longitude,EQ.Depth] 
     MagType = [EQ.Mtype]
@@ -47,8 +45,8 @@ for index, EQ in ANSS.iterrows(): #organizing data to use details
         print("ERROR: running on "+Event.eventname+" failed!!!!\n\n") 
         
 eventID = (str(etime)+Event.iter+Event.ecount) # creates unique event name
-inventory = get_respinv(network,eloc,etime,rads,chan,src) # make an inventory incase needed.
+inventory = get_respinv(Defaults.network,eloc,etime,rads,Defaults.chan,Defaults.src) # make an inventory incase needed.
 stp = filtering(st) # filter stream for instrument response and taper
 df_freq = maxamp_calc(stp, eventID) #calculate max amps and dist for each tr at freq bands
-organize_data(df_freq, EQ, etime, eloc, eventID) #creates dataframe of all results
+organize_data(df_freq, Defaults.chan, Defaults.network, EQ, etime, eloc, eventID) #creates dataframe of all results
 maxamp_plot(eventID,df_freq) #plots maxamps vs distance
