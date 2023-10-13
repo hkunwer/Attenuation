@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import csv
 from numpy import abs
+import pickle
 
 def processANSS():
 
@@ -51,13 +52,14 @@ def filtering(stream):
     # process data (maybe make this into a function)
     stp.detrend(type='polynomial', order=5) # pre-instrument removal
     stp.taper(taper)
-    stp.remove_response(output="DISP")
+    stp.remove_response(output="DISP") #using for comparison, will maybe use VEL for energies later. 
     stp.detrend(type='polynomial', order=5) # post-instrument removal
     stp.taper(taper)
+    print("Completed: instrument response removal and taper, data returned as Displacement")
     
     return stp
 
-def maxamp_calc(stream, eventID):
+def maxamp_calc(stream, EQ, Defaults, etime, eloc):
     
     freqlist = [(0.10, 0.25),(0.25, 0.50),(0.50, 0.75),(0.75, 1.00),(1.00, 1.25)]
     maxamps = []
@@ -74,18 +76,18 @@ def maxamp_calc(stream, eventID):
 
         for tr in stp_freq:
             maxamp = np.max(abs(tr))
-            dist = tr.stats.distance / 1000
-            station = tr.stats.station
-            maxamps.append(maxamp)
-            dist_str.append(dist)
-            station_name.append(station)
-            frequencies.append(freq_range)
+            threshold = 50 # Add a condition to exclude values above threshold
+            if maxamp <= threshold:
+                dist = tr.stats.distance / 1000
+                station = tr.stats.station
+                maxamps.append(maxamp)
+                dist_str.append(dist)
+                station_name.append(station)
+                frequencies.append(freq_range)
   
-    df_freq = pd.DataFrame({"maxamps":maxamps,"distance":dist_str,"station":station_name, "frequency":frequencies}) 
-    df_freq.to_csv('MaxAmps_'+eventID+'.csv', index=False)
-    return df_freq
-
-def organize_data(df_freq, EQ, etime,eloc, eventID):          
+    print("Completed: frequency band filtering")
+          
+    df_freq = pd.DataFrame({"maxamps":maxamps,"distance":dist_str,"station":station_name, "frequency":frequencies})         
             
     stations = []
     distances = []
@@ -96,7 +98,8 @@ def organize_data(df_freq, EQ, etime,eloc, eventID):
     frequency_bands = []
     event_location = []
 
-    for station, distance, max_amp, freq_range in zip(df_freq['station'], df_freq['distance'], df_freq['maxamps'], df_freq['frequency']):
+    for station, distance, max_amp, freq_range in zip(df_freq['station'], df_freq['distance'], df_freq['maxamps'], 
+                                                      df_freq['frequency']):
         stations.append(station)
         distances.append(distance)
         event_dates.append(etime)
@@ -111,32 +114,89 @@ def organize_data(df_freq, EQ, etime,eloc, eventID):
         'distance': distances,
         'event': event_dates,
         'location':event_location,
-        'magnitude of event': magnitudes,
-        'type of magnitude': magnitude_types,
+        'magnitude': magnitudes,
+        'mag type': magnitude_types,
         'max amplitude': max_amplitudes,
         'frequency band': frequency_bands
     }
-    df_final = pd.DataFrame(data)
-    df_final.to_csv('Results_'+eventID+'.csv', index=False) # Export to CSV
 
-def maxamp_plot(eventID, dataframe):
+    # Create a new DataFrame with the new data
+    df_new = pd.DataFrame(data)
+    print("Completed: made new dataframe of max amps for this event")
+    
+    return df_new
+
+        
+def update_and_save_dataframe(df_new):
+    
+    # Try to load an existing DataFrame if available, or create an empty one if not
+    try:
+        with open('AllResults.pkl', 'rb') as file:
+            df_ALL = pickle.load(file)
+            print("Loaded data from the AllResults.pkl file")
+            
+            # append df_new to the collective DataFrame
+            df_ALL = df_ALL.append(df_new, ignore_index=False)
+
+            # Save the updated DataFrame to a Pickle file
+            try:
+                with open('AllResults.pkl', 'wb') as file:
+                    pickle.dump(df_ALL, file)
+                    print("Finished updating AllResults.pkl:", df_ALL.tail())
+            except Exception as e:
+                print(f"Error while saving new info to Pickle file: {e}")
+    
+    except FileNotFoundError:
+        df_ALL = pd.DataFrame(columns=["station name", "distance", "event", "location", "magnitude", "mag type", 
+                                       "max amplitude", "frequency band"])
+        print("Could not load data from file, creating new file named AllResults_new.pkl")
+
+        # append df_new to the collective DataFrame
+        
+        df_ALL = df_ALL.append(df_new, ignore_index=False)
+        # Save the updated DataFrame to a Pickle file
+        try:
+            with open('AllResults_new.pkl', 'wb') as file:
+                pickle.dump(df_ALL, file)
+                print("Finished updating AllResults_new.pkl:", df_ALL.tail())
+        except Exception as e:
+            print(f"Error while saving new info to Pickle file: {e}")
+        
+def maxamp_plot():
+    
+    try:
+        with open('AllResults.pkl', 'rb') as pkl_file:
+            dataframe = pickle.load(pkl_file)
+            print("Completed: Loaded data from the AllResults.pkl file")
+    except
+        with open('AllResults_new.pkl', 'rb') as pkl_file:
+            dataframe = pickle.load(pkl_file)
+            print("Completed: Loaded data from the AllResults_new.pkl file")
+        
     color_mapping = {
     (0.10, 0.25): 'blue',
     (0.25, 0.50): 'green',
     (0.50, 0.75): 'red',
     (0.75, 1.00): 'orange',
     (1.00, 1.25): 'purple',}
+    
+    print("Plotting all max amps and distance now........")
+          
     # Create a figure and axis
     fig, ax = plt.subplots()
     # Loop through unique frequency bands
-    for freq_range, group in dataframe.groupby('frequency'):
+    for freq_range, group in dataframe.groupby('frequency band'):
         color = color_mapping[tuple(freq_range)]  # Get color based on frequency range
-        ax.scatter(group['distance'], group['maxamps'], label = f'{freq_range[0]:.2f}-{freq_range[1]:.2f} Hz',color=color, marker = 'o',facecolors='none')
+        ax.scatter(group['distance'], group['max amplitude'], label = f'{freq_range[0]:.2f}-{freq_range[1]:.2f} Hz',
+                   color=color, marker = 'o',facecolors='none')
     # Add labels, legend, and show the plot
     plt.yscale('log')
-    plt.title('The Max Amplitude for '+ eventID)
+    plt.title('Max Amplitude for 2022-01-24')
     ax.set_xlabel('Distance (km)')
     ax.set_ylabel('Max amplitude (Log scale)')
     plt.legend()
-    image = plt.savefig('MaxAmps_'+eventID+'.png') #save plot by unique event ID
-    #plt.show()  
+    image = plt.savefig('AllMaxAmps2022-01-24.png') 
+    #save plot by date
+    plt.show()  
+    
+    return dataframe

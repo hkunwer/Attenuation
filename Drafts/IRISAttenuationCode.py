@@ -12,17 +12,16 @@ from AttenuationFunctions import processANSS, filtering, maxamp_calc, organize_d
 Defaults = defaults()
 Event = event()
 
-Defaults.src='RASPISHAKE'
-Defaults.network='AM'
-Defaults.chan='EHZ'
+Defaults.src='IRIS'
+Defaults.network='??'
+Defaults.chan='BHZ'
 Defaults.stationrange=[1.,10.]
 Event.ecount='00'
-Event.iter='RS'
-Event.newData = False   # False means use already downloaded data
+Event.iter='IRIS'
+Event.newData = True   # False means use already downloaded data
 edateold=""
 ANSS = processANSS() 
 for index, EQ in ANSS.iterrows(): #organizing data to use details
-    rads = [1.,10.]
     eloc = [EQ.Latitude,EQ.Longitude,EQ.Depth] 
     MagType = [EQ.Mtype]
     MagValue = [EQ.Mag]
@@ -43,10 +42,10 @@ for index, EQ in ANSS.iterrows(): #organizing data to use details
         st, df = getwaves(Defaults=Defaults,Event=Event)
     except:
         print("ERROR: running on "+Event.eventname+" failed!!!!\n\n") 
-        
+    
 eventID = (str(etime)+Event.iter+Event.ecount) # creates unique event name
-inventory = get_respinv(Defaults.network,eloc,etime,rads,Defaults.chan,Defaults.src) # make an inventory incase needed.
+#inventory = get_respinv(network=Defaults.network,eloc,etime,rads,chan=Defaults.chan,src=Defaults.src) # make an inventory incase needed.
 stp = filtering(st) # filter stream for instrument response and taper
-df_freq = maxamp_calc(stp, eventID) #calculate max amps and dist for each tr at freq bands
-organize_data(df_freq, Defaults.chan, Defaults.network, EQ, etime, eloc, eventID) #creates dataframe of all results
+df_freq = maxamp_calc(stp, eventID, EQ, Defaults) #calculate max amps and dist for each tr at freq bands
+organize_data(df_freq, EQ, etime, eloc, eventID) #creates dataframe of all results
 maxamp_plot(eventID,df_freq) #plots maxamps vs distance
