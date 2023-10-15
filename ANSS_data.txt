@@ -6,12 +6,17 @@
   2022-01-26T01:42:26.397  -73.3488  18.4608  12.45    mb  4.20   us7000gf5n  |  4 km S of Anse-à-Veau, Haiti
   2022-01-26T01:16:50.147  -73.3417  18.5792  10.00    mb  4.50   us7000ghbv  |  8 km N of Anse-à-Veau, Haiti
   2022-01-26T01:14:30.134  -73.3357  18.4971  10.00    mb  4.50   us7000gf5g  |  1 km ESE of Anse-à-Veau, Haiti
+  2022-01-25T02:27:30.355  -73.2730  18.4810  10.00    mb  4.10   us7000gesj  |  4 km W of Petite Rivière de Nippes, Haiti
   2022-01-25T01:04:48.247  -73.3759  18.4970  11.09    mb  4.20   us7000gert  |  3 km W of Anse-à-Veau, Haiti
+  2022-01-24T23:26:46.837  -73.2827  18.4179  10.00    mb  4.20   us7000geqe  |  8 km SW of Petite Rivière de Nippes, Haiti
   2022-01-24T20:01:46.740  -73.2923  18.5002  10.00    mb  4.40   us7000gen4  |  5 km E of Anse-à-Veau, Haiti
   2022-01-24T15:08:30.933  -73.3344  18.4467  10.00    mb  4.40   us7000gekq  |  6 km S of Anse-à-Veau, Haiti
+  2022-01-24T14:14:31.376  -73.3168  18.4192  11.90    mb  4.60   us7000ggr1  |  9 km SSE of Anse-à-Veau, Haiti
   2022-01-24T14:10:38.325  -73.3134  18.4738  10.00    mb  4.50   us7000ggqz  |  4 km SE of Anse-à-Veau, Haiti
   2022-01-24T14:06:43.485  -73.2999  18.4940  10.00   mww  5.10   us7000gekf  |  4 km E of Anse-à-Veau, Haiti
   2022-01-24T13:43:17.729  -73.3389  18.4660  10.00    mb  4.40   us7000gek7  |  3 km S of Anse-à-Veau, Haiti
   2022-01-24T13:16:23.425  -73.3389  18.4578  10.00   mww  5.30   us7000gek3  |  4 km S of Anse-à-Veau, Haiti
   2021-08-20T05:38:44.179  -73.3011  18.5255  10.00    mb  4.00   us6000f8pm  |  Haiti region
+  2021-08-14T13:14:12.790  -73.4640  18.4511  10.00    mb  4.10   us6000f65w  |  9 km SSE of Petit Trou de Nippes, Haiti
+  2021-08-14T12:29:08.454  -73.4822  18.4335  10.00   mww  7.20   us6000f65h  |  Nippes, Haiti
   2021-02-24T07:37:09.707  -73.3856  18.5623  10.00    mb  4.20   us7000deml  |  8 km NNW of Anse-à-Veau, Haiti
