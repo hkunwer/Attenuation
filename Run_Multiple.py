@@ -6,7 +6,7 @@ model = TauPyModel(model="iasp91")
 from rtergpy.run import defaults, event, etime2name
 from rtergpy.waveforms import getwaves, get_respinv
 #attenuation (Hiba's code)
-from Attenuation.AttenuationFunctions import processANSS, filtering, maxamp_calc, update_and_save_dataframe, maxamp_plot
+from AttenuationFunctions import processANSS, filtering, maxamp_calc, update_and_save_dataframe, maxamp_plot
 
 # Processing and Reading information about event stored in ANSS_data.txt
 Defaults = defaults()
