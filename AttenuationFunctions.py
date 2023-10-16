@@ -126,7 +126,6 @@ def maxamp_calc(stream, EQ, Defaults, etime, eloc):
     
     return df_new
 
-        
 def update_and_save_dataframe(df_new):
     
     # Try to load an existing DataFrame if available, or create an empty one if not

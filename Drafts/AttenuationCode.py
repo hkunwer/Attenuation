@@ -28,7 +28,7 @@ from rtergpy.run import defaults, event, etime2name, src2ergs
 from rtergpy.waveforms import getwaves
 
 #attenuation
-from Attenuation.Drafts.AttenuationFunctions import processANSS, freqmaxes
+from Attenuation.AttenuationFunctions import processANSS, freqmaxes
 
 # %%
 # Processing and Reading information about event stored in ANSS_data.txt
