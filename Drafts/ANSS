@@ -1,0 +1,250 @@
+Last login: Fri Oct 13 15:07:15 on ttys000
+(base) hkunwer@Hibas-MacBook-Pro-2 ~ % ssh -Y 'hkunwer3'@eas-ssh.eas.gatech.edu -t ssh -X 'hkunwer3'@masaya.eas.gatech.edu
+###################################################################
+#                 Georgia Institute of Technology                 #
+#                                                                 #
+# This computer system is the property of the Georgia Institute   #
+# of Technology. Any user of this system must comply with         #
+# all Institute and Board of Regents policies, including the      #
+# Acceptable Use Policy, Cyber Security Policy and Data Privacy   #
+# Policy (http://b.gatech.edu/it-policies). Users should have no  #
+# expectation of privacy, as any and all files on this system may #
+# be intercepted, monitored, recorded, copied, inspected, and/or  #
+# disclosed to authorized personnel in order to meet Institute    #
+# obligations.                                                    #
+###################################################################
+hkunwer3@eas-ssh.eas.gatech.edu's password: 
+Password: 
+Password: 
+Password: 
+hkunwer3@masaya.eas.gatech.edu's password: 
+Permission denied, please try again.
+hkunwer3@masaya.eas.gatech.edu's password: 
+Connection to eas-ssh.eas.gatech.edu closed.
+(base) hkunwer@Hibas-MacBook-Pro-2 ~ % ssh -Y 'hkunwer3'@eas-ssh.eas.gatech.edu -t ssh -X 'hkunwer'@masaya.eas.gatech.edu 
+###################################################################
+#                 Georgia Institute of Technology                 #
+#                                                                 #
+# This computer system is the property of the Georgia Institute   #
+# of Technology. Any user of this system must comply with         #
+# all Institute and Board of Regents policies, including the      #
+# Acceptable Use Policy, Cyber Security Policy and Data Privacy   #
+# Policy (http://b.gatech.edu/it-policies). Users should have no  #
+# expectation of privacy, as any and all files on this system may #
+# be intercepted, monitored, recorded, copied, inspected, and/or  #
+# disclosed to authorized personnel in order to meet Institute    #
+# obligations.                                                    #
+###################################################################
+hkunwer3@eas-ssh.eas.gatech.edu's password: 
+Password: 
+Password: 
+Password: 
+Last failed login: Sun Oct 15 12:10:36 EDT 2023 from 130.207.64.23 on ssh:notty
+There were 2 failed login attempts since the last successful login.
+Last login: Fri Oct 13 07:52:43 2023 from 130.207.64.23
+Have a lot of fun...
+(base) 1.> searchANSS
+searchANSS was originally developed by Andrew Newman (Georgia Institute of Technology).
+
+ Usage: searchANSS [-RLONMIN/LONMAX/LATMIN/LATMAX] [-CCLON/CLAT/RAD] 
+           [-TSYEAR/SMO/SDAY/EYEAR/EMO/EDAY] [-MMMIN/MMAX][-DDMIN/DMAX] 
+       Program searches a local database of the ANSS catalog available online at:
+       http://www.ncedc.org/anss/catalog-search.html
+
+Options (Must use at least one option):
+       -R   Rectangular search using LONMIN/LONMAX/LATMIN/LATMAX 
+       -C   Circular search using center LON/LAT and radius [km] 
+       -T   Time of event where  S* and E* represent start and end year month and day 
+              (all are required if option is used) 
+       -M   Magnitude range with Mmin and Mmax 
+              (maximum limits will be rescaled to 0 and 9.9 if outside) 
+       -D   Depth range with DMIN and DMAX in km    
+       OUTPUT Goes to STDOUT  
+
+       CAVEATS: 
+        1) regional searches do not work across poles or dateline.  Also, the ANSS catalog
+        is a composite of many/but not all available seismic data. Thus, this should not be considered
+	definative (e.g. the NCEDC data is not all in here: see http://www.ncedc.org/ncedc/catalog-search.html).
+
+	2) Data newer than early 2017 must be obtained from the COMCAT website, and may be done sone using the web-based
+	API.  As an example:
+	https://earthquake.usgs.gov/fdsnws/event/1/query?format=text&starttime=1960-01-01&endtime=1999-12-31&minlatitude=-12&maxlatitude=-3&minlongitude=150&maxlongitude=165
+
+	Extention options are shown here: https://earthquake.usgs.gov/fdsnws/event/1
+
+       EXAMPLE: Find all earthquakes within a certain range of space and time greater than magnitude 4 and shallower than 40 km depth. 
+       
+       % searchANSS -R-120/-110/30/40 -T1995/01/01/2000/12/31 -M4 -D0/40 
+ (base) 2.> -C-73.3710/18.4938 -T2022/01/01/2022/12/31 -M4
+-bash: -C-73.3710/18.4938: No such file or directory
+(base) 3.> searchANSS -C-73.3710/18.4938 -T2022/01/01/2022/12/31 -M4
+# SearchANSS results 
+#       run : Sun Oct 15 16:14:58 UTC 2023 
+#        by : hkunwer on masaya
+#     using : /usr/local/geophysics/bin/searchANSS -C-73.3710/18.4938 -T2022/01/01/2022/12/31 -M4 
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   454  100   454    0     0     43      0  0:00:10  0:00:10 --:--:--    91
+# Magnitude : 4 to 10.5
+#     Depth : -10000 to 10000
+#  webquery : https://earthquake.usgs.gov/fdsnws/event/1/query?format=text&minmagnitude=4&maxmagnitude=10.5&starttime=2022-01-01&endtime=2022-12-31&latitude=18.4938&longitude=-73.3710&maxradiuskm=
+#Year-mo-dyThr:mn:seconds Longitude Latitude  Depth Mtype   Mag   Event-ID    |  Location
+                             0.0000   0.0000   0.00        0.00   Error 400: Bad Request  |  
+                             0.0000   0.0000   0.00        0.00     |  
+                             0.0000   0.0000   0.00        0.00   Invalid area-circle parameter combination.  |  
+                             0.0000   0.0000   0.00        0.00   latitude, longitude, and maxradius must all be specified for area-circle.  |  
+                             0.0000   0.0000   0.00        0.00     |  
+                             0.0000   0.0000   0.00        0.00   Usage details are available from https://earthquake.usgs.gov/fdsnws/event/1  |  
+                             0.0000   0.0000   0.00        0.00     |  
+                             0.0000   0.0000   0.00        0.00   Request:  |  
+                             0.0000   0.0000   0.00        0.00   /fdsnws/event/1/query?format=text&minmagnitude=4&maxmagnitude=10.5&starttime=2022-01-01&endtime=2022-12-31&latitude=18.4938&longitude=-73.3710&maxradiuskm=  |  
+                             0.0000   0.0000   0.00        0.00     |  
+                             0.0000   0.0000   0.00        0.00   Request Submitted:  |  
+                             0.0000   0.0000   0.00        0.00   2023-10-15T16:15:08+00:00  |  
+                             0.0000   0.0000   0.00        0.00     |  
+                             0.0000   0.0000   0.00        0.00   Service version:  |  
+                             0.0000   0.0000   0.00        0.00   1.14.0  |  
+(base) 4.> searchANSS -C-73.3710/18.4938/10 -T2022/01/01/2022/12/31 -M4
+# SearchANSS results 
+#       run : Sun Oct 15 16:15:41 UTC 2023 
+#        by : hkunwer on masaya
+#     using : /usr/local/geophysics/bin/searchANSS -C-73.3710/18.4938/10 -T2022/01/01/2022/12/31 -M4 
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1716  100  1716    0     0   5978      0 --:--:-- --:--:-- --:--:--  6000
+# Magnitude : 4 to 10.5
+#     Depth : -10000 to 10000
+#  webquery : https://earthquake.usgs.gov/fdsnws/event/1/query?format=text&minmagnitude=4&maxmagnitude=10.5&starttime=2022-01-01&endtime=2022-12-31&latitude=18.4938&longitude=-73.3710&maxradiuskm=10
+#Year-mo-dyThr:mn:seconds Longitude Latitude  Depth Mtype   Mag   Event-ID    |  Location
+  2022-01-29T20:19:20.871  -73.3410  18.4523  13.60    mb  4.40   us7000gg9y  |  Nippes, Haiti
+  2022-01-29T01:09:38.417  -73.3116  18.5102  10.00    mb  4.30   us7000gg3e  |  3 km ENE of Anse-à-Veau, Haiti
+  2022-01-28T21:50:26.444  -73.2871  18.5096  10.00    mb  4.30   us7000gg1t  |  6 km E of Anse-à-Veau, Haiti
+  2022-01-27T14:59:20.922  -73.3710  18.4938  10.00    mb  4.50   us7000gfjv  |  Haiti region
+  2022-01-26T01:42:26.397  -73.3488  18.4608  12.45    mb  4.20   us7000gf5n  |  4 km S of Anse-à-Veau, Haiti
+  2022-01-26T01:16:50.147  -73.3417  18.5792  10.00    mb  4.50   us7000ghbv  |  8 km N of Anse-à-Veau, Haiti
+  2022-01-26T01:14:30.134  -73.3357  18.4971  10.00    mb  4.50   us7000gf5g  |  1 km ESE of Anse-à-Veau, Haiti
+  2022-01-25T01:04:48.247  -73.3759  18.4970  11.09    mb  4.20   us7000gert  |  3 km W of Anse-à-Veau, Haiti
+  2022-01-24T20:01:46.740  -73.2923  18.5002  10.00    mb  4.40   us7000gen4  |  5 km E of Anse-à-Veau, Haiti
+  2022-01-24T15:08:30.933  -73.3344  18.4467  10.00    mb  4.40   us7000gekq  |  6 km S of Anse-à-Veau, Haiti
+  2022-01-24T14:10:38.325  -73.3134  18.4738  10.00    mb  4.50   us7000ggqz  |  4 km SE of Anse-à-Veau, Haiti
+  2022-01-24T14:06:43.485  -73.2999  18.4940  10.00   mww  5.10   us7000gekf  |  4 km E of Anse-à-Veau, Haiti
+  2022-01-24T13:43:17.729  -73.3389  18.4660  10.00    mb  4.40   us7000gek7  |  3 km S of Anse-à-Veau, Haiti
+  2022-01-24T13:16:23.425  -73.3389  18.4578  10.00   mww  5.30   us7000gek3  |  4 km S of Anse-à-Veau, Haiti
+(base) 5.> searchANSS -C-73.3710/18.4938/10 -T2021/01/01/2022/12/31 -M4
+# SearchANSS results 
+#       run : Sun Oct 15 16:17:10 UTC 2023 
+#        by : hkunwer on masaya
+#     using : /usr/local/geophysics/bin/searchANSS -C-73.3710/18.4938/10 -T2021/01/01/2022/12/31 -M4 
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1929  100  1929    0     0   5596      0 --:--:-- --:--:-- --:--:--  5607
+# Magnitude : 4 to 10.5
+#     Depth : -10000 to 10000
+#  webquery : https://earthquake.usgs.gov/fdsnws/event/1/query?format=text&minmagnitude=4&maxmagnitude=10.5&starttime=2021-01-01&endtime=2022-12-31&latitude=18.4938&longitude=-73.3710&maxradiuskm=10
+#Year-mo-dyThr:mn:seconds Longitude Latitude  Depth Mtype   Mag   Event-ID    |  Location
+  2022-01-29T20:19:20.871  -73.3410  18.4523  13.60    mb  4.40   us7000gg9y  |  Nippes, Haiti
+  2022-01-29T01:09:38.417  -73.3116  18.5102  10.00    mb  4.30   us7000gg3e  |  3 km ENE of Anse-à-Veau, Haiti
+  2022-01-28T21:50:26.444  -73.2871  18.5096  10.00    mb  4.30   us7000gg1t  |  6 km E of Anse-à-Veau, Haiti
+  2022-01-27T14:59:20.922  -73.3710  18.4938  10.00    mb  4.50   us7000gfjv  |  Haiti region
+  2022-01-26T01:42:26.397  -73.3488  18.4608  12.45    mb  4.20   us7000gf5n  |  4 km S of Anse-à-Veau, Haiti
+  2022-01-26T01:16:50.147  -73.3417  18.5792  10.00    mb  4.50   us7000ghbv  |  8 km N of Anse-à-Veau, Haiti
+  2022-01-26T01:14:30.134  -73.3357  18.4971  10.00    mb  4.50   us7000gf5g  |  1 km ESE of Anse-à-Veau, Haiti
+  2022-01-25T01:04:48.247  -73.3759  18.4970  11.09    mb  4.20   us7000gert  |  3 km W of Anse-à-Veau, Haiti
+  2022-01-24T20:01:46.740  -73.2923  18.5002  10.00    mb  4.40   us7000gen4  |  5 km E of Anse-à-Veau, Haiti
+  2022-01-24T15:08:30.933  -73.3344  18.4467  10.00    mb  4.40   us7000gekq  |  6 km S of Anse-à-Veau, Haiti
+  2022-01-24T14:10:38.325  -73.3134  18.4738  10.00    mb  4.50   us7000ggqz  |  4 km SE of Anse-à-Veau, Haiti
+  2022-01-24T14:06:43.485  -73.2999  18.4940  10.00   mww  5.10   us7000gekf  |  4 km E of Anse-à-Veau, Haiti
+  2022-01-24T13:43:17.729  -73.3389  18.4660  10.00    mb  4.40   us7000gek7  |  3 km S of Anse-à-Veau, Haiti
+  2022-01-24T13:16:23.425  -73.3389  18.4578  10.00   mww  5.30   us7000gek3  |  4 km S of Anse-à-Veau, Haiti
+  2021-08-20T05:38:44.179  -73.3011  18.5255  10.00    mb  4.00   us6000f8pm  |  Haiti region
+  2021-02-24T07:37:09.707  -73.3856  18.5623  10.00    mb  4.20   us7000deml  |  8 km NNW of Anse-à-Veau, Haiti
+(base) 6.> searchANSS -C-73.3710/18.4938/10 -T2020/01/01/2022/12/31 -M4
+# SearchANSS results 
+#       run : Sun Oct 15 16:17:42 UTC 2023 
+#        by : hkunwer on masaya
+#     using : /usr/local/geophysics/bin/searchANSS -C-73.3710/18.4938/10 -T2020/01/01/2022/12/31 -M4 
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1929  100  1929    0     0  10022      0 --:--:-- --:--:-- --:--:-- 10046
+# Magnitude : 4 to 10.5
+#     Depth : -10000 to 10000
+#  webquery : https://earthquake.usgs.gov/fdsnws/event/1/query?format=text&minmagnitude=4&maxmagnitude=10.5&starttime=2020-01-01&endtime=2022-12-31&latitude=18.4938&longitude=-73.3710&maxradiuskm=10
+#Year-mo-dyThr:mn:seconds Longitude Latitude  Depth Mtype   Mag   Event-ID    |  Location
+  2022-01-29T20:19:20.871  -73.3410  18.4523  13.60    mb  4.40   us7000gg9y  |  Nippes, Haiti
+  2022-01-29T01:09:38.417  -73.3116  18.5102  10.00    mb  4.30   us7000gg3e  |  3 km ENE of Anse-à-Veau, Haiti
+  2022-01-28T21:50:26.444  -73.2871  18.5096  10.00    mb  4.30   us7000gg1t  |  6 km E of Anse-à-Veau, Haiti
+  2022-01-27T14:59:20.922  -73.3710  18.4938  10.00    mb  4.50   us7000gfjv  |  Haiti region
+  2022-01-26T01:42:26.397  -73.3488  18.4608  12.45    mb  4.20   us7000gf5n  |  4 km S of Anse-à-Veau, Haiti
+  2022-01-26T01:16:50.147  -73.3417  18.5792  10.00    mb  4.50   us7000ghbv  |  8 km N of Anse-à-Veau, Haiti
+  2022-01-26T01:14:30.134  -73.3357  18.4971  10.00    mb  4.50   us7000gf5g  |  1 km ESE of Anse-à-Veau, Haiti
+  2022-01-25T01:04:48.247  -73.3759  18.4970  11.09    mb  4.20   us7000gert  |  3 km W of Anse-à-Veau, Haiti
+  2022-01-24T20:01:46.740  -73.2923  18.5002  10.00    mb  4.40   us7000gen4  |  5 km E of Anse-à-Veau, Haiti
+  2022-01-24T15:08:30.933  -73.3344  18.4467  10.00    mb  4.40   us7000gekq  |  6 km S of Anse-à-Veau, Haiti
+  2022-01-24T14:10:38.325  -73.3134  18.4738  10.00    mb  4.50   us7000ggqz  |  4 km SE of Anse-à-Veau, Haiti
+  2022-01-24T14:06:43.485  -73.2999  18.4940  10.00   mww  5.10   us7000gekf  |  4 km E of Anse-à-Veau, Haiti
+  2022-01-24T13:43:17.729  -73.3389  18.4660  10.00    mb  4.40   us7000gek7  |  3 km S of Anse-à-Veau, Haiti
+  2022-01-24T13:16:23.425  -73.3389  18.4578  10.00   mww  5.30   us7000gek3  |  4 km S of Anse-à-Veau, Haiti
+  2021-08-20T05:38:44.179  -73.3011  18.5255  10.00    mb  4.00   us6000f8pm  |  Haiti region
+  2021-02-24T07:37:09.707  -73.3856  18.5623  10.00    mb  4.20   us7000deml  |  8 km NNW of Anse-à-Veau, Haiti
+(base) 7.> searchANSS -C-73.3710/18.4938/10 -T2019/01/01/2022/12/31 -M4
+# SearchANSS results 
+#       run : Sun Oct 15 16:17:56 UTC 2023 
+#        by : hkunwer on masaya
+#     using : /usr/local/geophysics/bin/searchANSS -C-73.3710/18.4938/10 -T2019/01/01/2022/12/31 -M4 
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1929  100  1929    0     0  14129      0 --:--:-- --:--:-- --:--:-- 14183
+# Magnitude : 4 to 10.5
+#     Depth : -10000 to 10000
+#  webquery : https://earthquake.usgs.gov/fdsnws/event/1/query?format=text&minmagnitude=4&maxmagnitude=10.5&starttime=2019-01-01&endtime=2022-12-31&latitude=18.4938&longitude=-73.3710&maxradiuskm=10
+#Year-mo-dyThr:mn:seconds Longitude Latitude  Depth Mtype   Mag   Event-ID    |  Location
+  2022-01-29T20:19:20.871  -73.3410  18.4523  13.60    mb  4.40   us7000gg9y  |  Nippes, Haiti
+  2022-01-29T01:09:38.417  -73.3116  18.5102  10.00    mb  4.30   us7000gg3e  |  3 km ENE of Anse-à-Veau, Haiti
+  2022-01-28T21:50:26.444  -73.2871  18.5096  10.00    mb  4.30   us7000gg1t  |  6 km E of Anse-à-Veau, Haiti
+  2022-01-27T14:59:20.922  -73.3710  18.4938  10.00    mb  4.50   us7000gfjv  |  Haiti region
+  2022-01-26T01:42:26.397  -73.3488  18.4608  12.45    mb  4.20   us7000gf5n  |  4 km S of Anse-à-Veau, Haiti
+  2022-01-26T01:16:50.147  -73.3417  18.5792  10.00    mb  4.50   us7000ghbv  |  8 km N of Anse-à-Veau, Haiti
+  2022-01-26T01:14:30.134  -73.3357  18.4971  10.00    mb  4.50   us7000gf5g  |  1 km ESE of Anse-à-Veau, Haiti
+  2022-01-25T01:04:48.247  -73.3759  18.4970  11.09    mb  4.20   us7000gert  |  3 km W of Anse-à-Veau, Haiti
+  2022-01-24T20:01:46.740  -73.2923  18.5002  10.00    mb  4.40   us7000gen4  |  5 km E of Anse-à-Veau, Haiti
+  2022-01-24T15:08:30.933  -73.3344  18.4467  10.00    mb  4.40   us7000gekq  |  6 km S of Anse-à-Veau, Haiti
+  2022-01-24T14:10:38.325  -73.3134  18.4738  10.00    mb  4.50   us7000ggqz  |  4 km SE of Anse-à-Veau, Haiti
+  2022-01-24T14:06:43.485  -73.2999  18.4940  10.00   mww  5.10   us7000gekf  |  4 km E of Anse-à-Veau, Haiti
+  2022-01-24T13:43:17.729  -73.3389  18.4660  10.00    mb  4.40   us7000gek7  |  3 km S of Anse-à-Veau, Haiti
+  2022-01-24T13:16:23.425  -73.3389  18.4578  10.00   mww  5.30   us7000gek3  |  4 km S of Anse-à-Veau, Haiti
+  2021-08-20T05:38:44.179  -73.3011  18.5255  10.00    mb  4.00   us6000f8pm  |  Haiti region
+  2021-02-24T07:37:09.707  -73.3856  18.5623  10.00    mb  4.20   us7000deml  |  8 km NNW of Anse-à-Veau, Haiti
+(base) 8.> searchANSS -C-73.3710/18.4938/15 -T2019/01/01/2022/12/31 -M4
+# SearchANSS results 
+#       run : Sun Oct 15 16:19:49 UTC 2023 
+#        by : hkunwer on masaya
+#     using : /usr/local/geophysics/bin/searchANSS -C-73.3710/18.4938/15 -T2019/01/01/2022/12/31 -M4 
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  2527  100  2527    0     0   6910      0 --:--:-- --:--:-- --:--:--  6923
+# Magnitude : 4 to 10.5
+#     Depth : -10000 to 10000
+#  webquery : https://earthquake.usgs.gov/fdsnws/event/1/query?format=text&minmagnitude=4&maxmagnitude=10.5&starttime=2019-01-01&endtime=2022-12-31&latitude=18.4938&longitude=-73.3710&maxradiuskm=15
+#Year-mo-dyThr:mn:seconds Longitude Latitude  Depth Mtype   Mag   Event-ID    |  Location
+  2022-01-29T20:19:20.871  -73.3410  18.4523  13.60    mb  4.40   us7000gg9y  |  Nippes, Haiti
+  2022-01-29T01:09:38.417  -73.3116  18.5102  10.00    mb  4.30   us7000gg3e  |  3 km ENE of Anse-à-Veau, Haiti
+  2022-01-28T21:50:26.444  -73.2871  18.5096  10.00    mb  4.30   us7000gg1t  |  6 km E of Anse-à-Veau, Haiti
+  2022-01-27T14:59:20.922  -73.3710  18.4938  10.00    mb  4.50   us7000gfjv  |  Haiti region
+  2022-01-26T01:42:26.397  -73.3488  18.4608  12.45    mb  4.20   us7000gf5n  |  4 km S of Anse-à-Veau, Haiti
+  2022-01-26T01:16:50.147  -73.3417  18.5792  10.00    mb  4.50   us7000ghbv  |  8 km N of Anse-à-Veau, Haiti
+  2022-01-26T01:14:30.134  -73.3357  18.4971  10.00    mb  4.50   us7000gf5g  |  1 km ESE of Anse-à-Veau, Haiti
+  2022-01-25T02:27:30.355  -73.2730  18.4810  10.00    mb  4.10   us7000gesj  |  4 km W of Petite Rivière de Nippes, Haiti
+  2022-01-25T01:04:48.247  -73.3759  18.4970  11.09    mb  4.20   us7000gert  |  3 km W of Anse-à-Veau, Haiti
+  2022-01-24T23:26:46.837  -73.2827  18.4179  10.00    mb  4.20   us7000geqe  |  8 km SW of Petite Rivière de Nippes, Haiti
+  2022-01-24T20:01:46.740  -73.2923  18.5002  10.00    mb  4.40   us7000gen4  |  5 km E of Anse-à-Veau, Haiti
+  2022-01-24T15:08:30.933  -73.3344  18.4467  10.00    mb  4.40   us7000gekq  |  6 km S of Anse-à-Veau, Haiti
+  2022-01-24T14:14:31.376  -73.3168  18.4192  11.90    mb  4.60   us7000ggr1  |  9 km SSE of Anse-à-Veau, Haiti
+  2022-01-24T14:10:38.325  -73.3134  18.4738  10.00    mb  4.50   us7000ggqz  |  4 km SE of Anse-à-Veau, Haiti
+  2022-01-24T14:06:43.485  -73.2999  18.4940  10.00   mww  5.10   us7000gekf  |  4 km E of Anse-à-Veau, Haiti
+  2022-01-24T13:43:17.729  -73.3389  18.4660  10.00    mb  4.40   us7000gek7  |  3 km S of Anse-à-Veau, Haiti
+  2022-01-24T13:16:23.425  -73.3389  18.4578  10.00   mww  5.30   us7000gek3  |  4 km S of Anse-à-Veau, Haiti
+  2021-08-20T05:38:44.179  -73.3011  18.5255  10.00    mb  4.00   us6000f8pm  |  Haiti region
+  2021-08-14T13:14:12.790  -73.4640  18.4511  10.00    mb  4.10   us6000f65w  |  9 km SSE of Petit Trou de Nippes, Haiti
+  2021-08-14T12:29:08.454  -73.4822  18.4335  10.00   mww  7.20   us6000f65h  |  Nippes, Haiti
+  2021-02-24T07:37:09.707  -73.3856  18.5623  10.00    mb  4.20   us7000deml  |  8 km NNW of Anse-à-Veau, Haiti
+(base) 9.> 
