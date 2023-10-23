@@ -148,14 +148,14 @@ def update_and_save_dataframe(df_new):
     except FileNotFoundError:
         df_ALL = pd.DataFrame(columns=["station name", "distance", "event", "location", "magnitude", "mag type", 
                                        "max amplitude", "frequency band"])
-        print("Could not load data from file, creating new file named AllResults_new.pkl")
+        print("Could not load data from existing file, creating new file named AllResults.pkl")
 
         # append df_new to the collective DataFrame
         
         df_ALL = df_ALL.append(df_new, ignore_index=False)
         # Save the updated DataFrame to a Pickle file
         try:
-            with open('AllResults_new.pkl', 'wb') as file:
+            with open('AllResults.pkl', 'wb') as file:
                 pickle.dump(df_ALL, file)
                 print("Finished updating AllResults_new.pkl:", df_ALL.tail())
         except Exception as e:
@@ -163,15 +163,10 @@ def update_and_save_dataframe(df_new):
         
 def maxamp_plot():
     
-    try:
         with open('AllResults.pkl', 'rb') as pkl_file:
             dataframe = pickle.load(pkl_file)
             print("Completed: Loaded data from the AllResults.pkl file")
-    except
-        with open('AllResults_new.pkl', 'rb') as pkl_file:
-            dataframe = pickle.load(pkl_file)
-            print("Completed: Loaded data from the AllResults_new.pkl file")
-        
+
     color_mapping = {
     (0.10, 0.25): 'blue',
     (0.25, 0.50): 'green',
