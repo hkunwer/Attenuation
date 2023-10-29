@@ -251,9 +251,15 @@ def normalization(): #removes outliers and normalizes data
         axs[2].set_ylabel('Log10(Max Amplitude) (Normalized)')
         axs[2].legend()
         print("saving FinalPlot.png")
-        image3 = plt.savefig("FinalPlot.png")
+        #image3 = plt.savefig("FinalPlot.png")
+        image_filename = os.path.join('plots', 'FinalPlot.png')
+        plt.savefig(image_filename)
         plt.tight_layout()
         plt.show()
+
+        # Create the "plots" folder if it doesn't exist
+        if not os.path.exists('plots'):
+            os.mkdir('plots')
 
         return normalized_dataframe
     
@@ -262,6 +268,10 @@ def normalization(): #removes outliers and normalizes data
         return original_dataframe
 
 def maxamp_plot():
+    
+    # Create the "plots" folder if it doesn't exist
+    if not os.path.exists('plots'):
+        os.mkdir('plots')
     
     try: 
         with open('Results.pkl', 'rb') as pkl_file:
@@ -283,7 +293,9 @@ def maxamp_plot():
         ax.set_xlabel('Distance (km)')
         ax.set_ylabel('Max amplitude (Log scale)')
         plt.legend()
-        image = plt.savefig('AllMaxAmps.png') 
+        #image = plt.savefig('AllMaxAmps.png') 
+        image_filename = os.path.join('plots', 'AllMaxAmps.png')
+        plt.savefig(image_filename)
         #save plot by date
         plt.show()  
     
