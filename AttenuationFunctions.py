@@ -134,7 +134,7 @@ def update_and_save_dataframe(df_new):
         with open('Results.pkl', 'rb') as file:
             df_ALL = pickle.load(file)
             print("Loaded data from the Results.pkl file")
-    except (FileNotFoundError, EOFError):
+    except:
         # If the file doesn't exist or is not valid, create an empty DataFrame
         df_ALL = pd.DataFrame(columns=["station name", "distance", "event", "location", "magnitude", "mag type", "max amplitude", "frequency band"])
         print("Could not load data from an existing file, creating a new file named Results.pkl")
