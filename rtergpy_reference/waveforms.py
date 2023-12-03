@@ -419,7 +419,8 @@ def getwaves(Defaults=Defaults, Event=Event, **kwargs):
     pwindow=Defaults.waveparams[1]
     edirbase=Defaults.edirbase
     src=Defaults.src
-    snrthreshold=float(Defaults.snr)
+    snrthreshold=float(5)
+    print(f"SNR = {snrthreshold}")
     pre_filt=Defaults.pre_filt
 
     edirit,origwd=eventdir(Defaults=Defaults,Event=Event,create=True,cd=True)
