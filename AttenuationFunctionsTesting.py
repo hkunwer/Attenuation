@@ -83,13 +83,13 @@ def filteringst(stream):
     # process data (maybe make this into a function)
     stp.detrend(type='polynomial', order=5) # pre-instrument removal
     stp.taper(taper)
-    stp.remove_response(output="VEL") #using for comparison, will maybe use VEL for energies later. 
+    stp.remove_response(output="DISP") #using for comparison, will maybe use VEL for energies later. 
     stp.detrend(type='polynomial', order=5) # post-instrument removal
     stp.taper(taper)
  
     # Square the velocity values
     #stp.data = stp.data**2
-    print("Completed: instrument response removal and taper, data returned as Velocity")
+    print("Completed: instrument response removal and taper, data returned as Displacement")
     
     return stp
 
@@ -196,7 +196,7 @@ def normalization(outlier_removed_df):  # normalizes data by calling normalizati
 def normalization_factor_calc(df): #Calculates normalization factor for each event individually, using 1.0-1.25Hz freq band
     
     # Filter only the frequency band (1.0, 1.25) as a reference
-    normalizeBench = 300
+    normalizeBench = 200
     filtered_dataframe = df[df['frequency band'] == (1.0, 1.25)]
     # Calculate the best fit line for the log-transformed filtered data
     filtered_log_max_amplitude = np.log10(filtered_dataframe['max amplitude'])
@@ -212,23 +212,20 @@ def normalized_max_amplitude_calc(row, normalization_factor): #Calculates normal
     return np.log10(row['max amplitude']) - normalization_factor
         
 def save_dataframe_to_file(dataframe, filename="near_field_df.pkl"):
-    try:
-        if os.path.exists(filename):
+        try:
             # Load existing DataFrame from the file  
             existing_dataframe = pd.read_pickle(filename)
             print("Completed: Loading existing dataframe")
             # Append the new data to the existing DataFrame
             combined_dataframe = existing_dataframe.append(dataframe, ignore_index=True)
-
             # Save the combined DataFrame back to the file
             combined_dataframe.to_pickle(filename)
-
             print(f"Completed: Appended data to {filename}")
-        else:
+            
+        except:
             dataframe.to_pickle(filename)
-            print(f"Completed: Saved data to {filename}")
-    except Exception as e:
-        print(f"Error: {e}")
+            print("could not append")
+
         
 def event_normalization_plot(normalized_dataframe, event_name): #Create plots showing all traces and their distribution across different freq bands
     
