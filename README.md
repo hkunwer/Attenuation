@@ -13,6 +13,8 @@
 
 # ATTENUATION
 
-#we are calculating the peak amplitude for individual frequency bands
-#we will then use this max amplitude along with a geometric spreading estimate to get
-#attenuation using the methods in Ismail et al 2023 and 2020 and McNamara et al 2014 as #guidance.
+#we are calculating the peak amplitude for individual frequency bands using Velocity squared data
+#We then obtain a near-field attenuation correction, t*, from the slope of a 3D plot of frequency and Velocity squared over distance
+#This will then used, with corrections for S-wave dominance and majority horizontal crustal pathway, in energy calculations in the near-field for tsunamigenic early warning system, rtergpy. 
+
+

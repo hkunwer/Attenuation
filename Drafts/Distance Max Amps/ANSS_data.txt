@@ -1,0 +1,47 @@
+#Year-mo-dyThr:mn:seconds Longitude Latitude Depth Mtype Mag Event-ID | Location
+  2021-12-26T07:40:54.014  -75.5456  19.8693  21.68    mb  4.00   us6000gfqn  |  33 km ESE of Santiago de Cuba, Cuba
+  2021-12-21T14:53:35.007  -73.9762  18.5460  12.53    mb  4.40   us6000ge5x  |  9 km WSW of Corail, Haiti
+  2021-12-13T05:08:28.907  -73.5797  18.5487  10.00    mb  4.20   us6000gcue  |  7 km WNW of Petit Trou de Nippes, Haiti
+  2021-11-22T07:42:47.936  -70.7475  19.6314  10.00   mwr  4.50   us7000fw4z  |  4 km SSE of Río Grande, Dominican Republic
+  2021-11-12T07:42:47.594  -74.2883  18.3777   7.80   mwr  4.60   us7000fthe  |  10 km NW of Les Anglais, Haiti
+  2021-10-24T04:59:17.276  -74.0476  18.7919  10.00    mb  4.10   us6000fx5c  |  17 km NNE of Jérémie, Haiti
+  2021-10-15T07:24:17.386  -74.1594  18.8347  10.00    mb  4.00   us6000futq  |  20 km NNW of Jérémie, Haiti
+  2021-10-14T03:12:56.650  -68.2210  18.3885 143.00    ml  4.45   pr2021287001  |  28 km SE of Punta Cana, Dominican Republic
+  2021-09-28T00:15:36.610  -69.3796  18.6991 104.21    mb  4.20   us7000ff0p  |  11 km WNW of Guayabo Dulce, Dominican Republic
+  2021-09-26T06:19:58.580  -68.9135  18.5078 108.00    md  4.11   pr2021269002  |  10 km NE of La Romana, Dominican Republic
+  2021-09-20T00:57:10.620  -73.6182  18.4416  10.00    mb  4.30   us7000fcs7  |  5 km SSE of Baradères, Haiti
+  2021-09-19T16:47:56.610  -68.7521  18.5528 129.00    md  4.25   pr2021262007  |  8 km SW of Salvaleón de Higüey, Dominican Republic
+  2021-09-06T03:53:55.570  -68.7371  18.9366  10.00    md  4.03   pr2021249004  |  32 km NNW of Otra Banda, Dominican Republic
+  2021-08-27T20:28:34.554  -74.1203  18.5019  14.19    mb  4.20   us7000f8m2  |  15 km ESE of Moron, Haiti
+  2021-08-25T10:51:34.482  -73.5491  18.4734  10.37    mb  4.10   us7000f3kw  |  7 km SW of Petit Trou de Nippes, Haiti
+  2021-08-22T23:27:12.189  -73.6174  18.5759  10.00    mb  4.50   us6000f9vk  |  10 km NNE of Baradères, Haiti
+  2021-08-21T18:47:31.607  -73.5504  18.4147  10.64    mb  4.40   us6000f9dq  |  11 km SE of Baradères, Haiti
+  2021-08-20T05:38:44.179  -73.3011  18.5255  10.00    mb  4.00   us6000f8pm  |  Haiti region
+  2021-08-19T03:57:36.718  -73.6010  18.4235  12.66   mwr  4.20   us6000f87d  |  7 km SSE of Baradères, Haiti
+  2021-08-18T16:47:53.279  -73.5103  18.3559   5.88   mwr  4.70   us6000f80d  |  11 km NNE of Saint-Louis du Sud, Haiti
+  2021-08-17T04:57:31.522  -73.5537  18.4678  10.00    mb  4.10   us6000f7fk  |  7 km SW of Petit Trou de Nippes, Haiti
+  2021-08-16T01:08:59.226  -74.1611  18.4445  10.00    mb  4.20   us7000f4qh  |  16 km SE of Moron, Haiti
+  2021-08-15T22:48:43.224  -73.5273  18.5163  10.00    mb  4.40   us6000f6r1  |  2 km WSW of Petit Trou de Nippes, Haiti
+  2021-08-15T19:46:43.736  -73.5289  18.3654  10.00    mb  4.00   us7000f4ad  |  11 km N of Saint-Louis du Sud, Haiti
+  2021-08-15T16:05:05.851  -73.5597  18.5267  11.55    mb  4.00   us6000f6mb  |  5 km W of Petit Trou de Nippes, Haiti
+  2021-08-15T12:05:43.669  -73.7190  18.5351  10.00   mwr  4.80   us6000f6kw  |  10 km NW of Baradères, Haiti
+  2021-08-15T07:01:42.342  -73.6640  18.5116  12.65    mb  4.00   us6000f6h4  |  4 km NW of Baradères, Haiti
+  2021-08-15T04:00:02.207  -74.1180  18.4016  10.00    mb  4.10   us6000f6ff  |  14 km NNE of Chardonnière, Haiti
+  2021-08-15T03:28:47.469  -73.9481  18.4348  10.00    mb  4.70   us7000f46v  |  15 km SSW of Corail, Haiti
+  2021-08-15T03:27:31.211  -73.9525  18.4883  10.00    mb  4.40   us7000f46u  |  11 km SW of Corail, Haiti
+  2021-08-15T03:20:45.298  -74.0899  18.3977   8.32   mww  5.80   us6000f6ez  |  15 km NNE of Chardonnière, Haiti
+  2021-08-15T02:37:53.592  -73.5740  18.6080  13.76   mww  5.10   us6000f6el  |  11 km NW of Petit Trou de Nippes, Haiti
+  2021-08-14T22:14:08.314  -74.0265  18.5268  16.09   mwr  4.50   us6000f6cd  |  15 km WSW of Corail, Haiti
+  2021-08-14T22:10:53.726  -74.0112  18.4332  10.00    mb  4.10   us6000f6cc  |  19 km SW of Corail, Haiti
+  2021-08-14T18:11:10.433  -73.6203  18.5860   8.82   mwr  5.20   us6000f69k  |  11 km N of Baradères, Haiti
+  2021-08-14T17:05:19.011  -73.5972  18.4335   9.53   mwr  4.90   us6000f691  |  6 km SE of Baradères, Haiti
+  2021-08-14T16:44:20.618  -73.5948  18.4457  10.00    mb  4.30   us7000f3qk  |  6 km SE of Baradères, Haiti
+  2021-08-14T16:08:03.051  -73.7120  18.5031  10.00   mwr  4.70   us6000f67i  |  8 km WNW of Baradères, Haiti
+  2021-08-14T15:08:10.923  -73.6068  18.4358  10.00    mb  4.30   us6000f67e  |  6 km SSE of Baradères, Haiti
+  2021-08-14T14:57:34.309  -73.6521  18.4745  10.00    mb  4.70   us6000f66y  |  Haiti region
+  2021-08-14T14:40:48.915  -73.6954  18.4801  10.00    mb  4.20   us6000f66r  |  5 km W of Baradères, Haiti
+  2021-08-14T14:28:50.707  -73.5688  18.5376  10.00    mb  4.80   us6000f66l  |  6 km WNW of Petit Trou de Nippes, Haiti
+  2021-08-14T14:03:13.938  -73.5777  18.5089  10.00    mb  4.40   us7000f3qz  |  7 km ENE of Baradères, Haiti
+  2021-08-14T14:02:35.434  -73.6071  18.4513  10.00    mb  4.20   us6000f66b  |  4 km SE of Baradères, Haiti
+  2021-08-14T13:52:25.491  -73.6079  18.4601  10.00    mb  4.30   us7000f3q3  |  4 km SE of Baradères, Haiti
+  2021-08-14T13:14:55.567  -73.5007  18.2672  10.00    mb  4.40   us6000f667  |  4 km E of Saint-Louis du Sud, Haiti
