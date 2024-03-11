@@ -7,6 +7,56 @@ import pickle
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import stats
+from datetime import datetime
+
+def processANSStxt():
+    """
+    Processes data from 'ANSS_data.txt', formats and saves the processed data to a CSV file named 'ANSS_processed_data.csv'.
+    The function then reads this CSV file into a pandas DataFrame and returns it.
+
+    Returns:
+    - ANSS: DataFrame containing the processed data.
+    """
+    try:
+        # Read the data from the file
+        with open('ANSS_data.txt', 'r') as file:
+            lines = file.readlines()
+
+        # Remove the header line
+        header = lines[0].strip().split()[1:-3]  # Exclude the last two columns
+        #comment = ['#']
+        header = ['Date', 'Time'] + header
+        lines = lines[1:]
+
+        # Modify the data
+        modified_lines = []
+        for line in lines:
+            columns = line.split()
+
+            # Extracting the date and time from the first column
+            first_column = columns[0]
+            date, time = first_column.split('T')
+
+            modified_line = [date, time] + columns[1:6]  # Exclude the last two columns
+            modified_lines.append(modified_line)
+
+        modified_lines.insert(0, header)
+
+        # Write the modified data to a CSV file (Could use pickle instead for better information storage) .pkl
+        #with open('ANSS_processed_data.pkl', 'wb') as file:
+            #pkl.dump(modified_lines, file)
+
+        with open('ANSS_processed_data.csv', 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(modified_lines)
+
+        ANSS = pd.read_csv('ANSS_processed_data.csv')
+        print("Successfully processed ANSS data")
+        return ANSS
+    
+    except Exception as e:
+        print(f"Error processing ANSS data: {e}")
+        return None
 
 def check_existing_dataframe():
     """
@@ -28,8 +78,9 @@ def check_existing_dataframe():
             if user_input == 'yes':
                 filename = input("Enter a new filename to save the data to (including extension, e.g., 'my_data.pkl'): ")
                 normalized_dataframe = pd.DataFrame(columns=["station name", "distance", "event", "location", 
-                                                             "magnitude", "mag type", "max amplitude", "frequency band", 
+                                                             "magnitude", "mag type", "frequency band", "max amplitude",
                                                              "max amplitude (normalized)"])
+  
                 normalized_dataframe.to_pickle(filename)
                 print(f"Completed: Created new dataframe '{filename}' to store normalized data later.")
             else:
@@ -39,41 +90,8 @@ def check_existing_dataframe():
         print(f"Error encountered: {e}")
         return None  # Return None in case of error
     
-    return normalized_dataframe
-
-def processANSStxt():
-    """
-    Processes data from 'ANSS_data.txt', formats and saves the processed data to a CSV file named 'ANSS_processed_data.csv'.
-    The function then reads this CSV file into a pandas DataFrame and returns it.
-
-    Returns:
-    - ANSS: DataFrame containing the processed data.
-    """
-    try:
-        with open('ANSS_data.txt', 'r') as file:
-            lines = file.readlines()
-
-        # Process header and data lines
-        header = ['Date', 'Time'] + lines[0].strip().split()[1:-3]  # Adjust to correctly map your header indices
-        lines = lines[1:]  # Exclude header line from data processing
-
-        modified_lines = [[*first_column.split('T'), *columns[1:6]] for first_column, *columns in (line.split() for line in lines)]
-
-        # Insert header at the beginning
-        modified_lines.insert(0, header)
-
-        # Save processed data to a CSV file
-        with open('ANSS_processed_data.csv', 'w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerows(modified_lines)
-
-        # Load the CSV into a DataFrame
-        ANSS = pd.read_csv('ANSS_processed_data.csv')
-        return ANSS
-    except Exception as e:
-        print(f"Error processing ANSS data: {e}")
-        return None
-        
+    return normalized_dataframe    
+    
 def filter_stream_for_velocity_squared(stream):
     """
     Filters an ObsPy Stream to output velocity squared data.
@@ -89,7 +107,7 @@ def filter_stream_for_velocity_squared(stream):
     - stream: ObsPy Stream object to be processed.
     
     Returns:
-    - stp: Processed ObsPy Stream with velocity data squared.
+    - Processed ObsPy Stream with velocity data squared.
     """
     
     taper_percentage = 0.05  # Taper percentage to use
@@ -138,28 +156,23 @@ def maxamp_calc_freq_bands(stream, earthquake, defaults, event_time, event_locat
         
         for tr in stp_freq:
             maxamp = np.max(np.abs(tr.data))
-            if maxamp <= 20:  # Assuming 20 is a meaningful threshold
-                results.append({
-                    'station_name': tr.stats.station,
-                    'distance': tr.stats.distance / 1000,
-                    'event_time': event_time,
-                    'event_location': event_location,
-                    'magnitude': earthquake.Mag,
-                    'mag_type': earthquake.Mtype,
-                    'max_amplitude': maxamp,
-                    'frequency_band': freq_range
-                })
+            #if maxamp <= 20:  # Assuming 20 is a meaningful threshold
+            results.append({
+                'station name': tr.stats.station,
+                'distance': tr.stats.distance / 1000,
+                'event': event_time,
+                'location': event_location,
+                'magnitude': earthquake.Mag,
+                'mag type': earthquake.Mtype,
+                'frequency band': freq_range,
+                'max amplitude': maxamp,
+ 
+            })
 
-    if results:
-        df = pd.DataFrame(results)
-        # Assuming remove_outliers and normalization are defined elsewhere
-        outlier_removed_df = remove_outliers(df)
-        normalized_dataframe = normalization(outlier_removed_df)
-        print("Completed: Frequency band filtering and normalization.")
-        return normalized_dataframe
-    else:
-        print("No traces meet the criteria for normalization.")
-        return None
+    df = pd.DataFrame(results)
+    # Assuming remove_outliers and normalization are defined elsewhere
+    outlier_removed_df = remove_outliers(df)
+    normalization(outlier_removed_df)
 
 def remove_outliers(df):
     """
@@ -185,6 +198,7 @@ def remove_outliers(df):
         # Remove outliers based on the threshold
         # Note: Only rows with 'max amplitude' > 0 and within the Z-score threshold are retained
         outlier_removed_df = df[(z_scores < threshold) & (df['max amplitude'] > 0)]
+        print("Completed: Outlier removal successful")
     except Exception as e:
         print(f"Error removing outliers: {e}")
         return df  # Return the original DataFrame in case of error
@@ -193,54 +207,56 @@ def remove_outliers(df):
 
 def normalization(outlier_removed_df):
     """
-    Normalizes the maximum amplitude data using velocity squared (v^2) as the normalization factor.
+    Normalizes the maximum amplitude data using distance as the normalization factor.
     This involves calculating a normalization factor for the data based on a specified frequency band
     and applying this factor to each data point to create a normalized maximum amplitude column.
 
     Parameters:
-    - outlier_removed_df: DataFrame containing outlier-removed data including 'velocity squared' and 'frequency band' columns.
+    - outlier_removed_df: DataFrame containing outlier-removed data including 'distance' and 'frequency band' columns.
 
     Returns:
     - The DataFrame with an additional 'max amplitude (normalized)' column.
     """
     try:
-        # Calculate the normalization factor at a benchmark velocity squared value using the best-fit line
+        
+        # Calculate the normalization factor (max amps) at a distance of 200 using the best-fit line for this event
         filtered_dataframe, normalization_factor = normalization_factor_calc(outlier_removed_df)
         
-        # Apply normalization to create the 'max amplitude (normalized)' column
+        # Apply the normalization function to create the 'max amplitude (normalized)' column
         outlier_removed_df['max amplitude (normalized)'] = outlier_removed_df.apply(
             lambda row: normalized_max_amplitude_calc(row, normalization_factor), axis=1
-        )
+        ) 
         print("Completed: normalization")
+        normalized_dataframe = outlier_removed_df.copy()
         
-        return outlier_removed_df
+        # Save the updated dataframe to a pickle file
+        save_dataframe_to_file(normalized_dataframe)
 
     except Exception as e:
         print(f"Incomplete: Could not complete normalization. Error: {e}")
-        return outlier_removed_df
     
 def normalization_factor_calc(df):
     """
-    Calculates the normalization factor for maximum amplitude based on velocity squared (v^2).
+    Calculates the normalization factor for maximum amplitude based on distance.
     This is done by filtering the data for a specific frequency band and then calculating 
     the best-fit line for the log-transformed maximum amplitude data against v^2.
 
     Parameters:
-    - df: DataFrame containing the data to normalize, including 'velocity squared' and 'max amplitude' columns.
+    - df: DataFrame containing the data to normalize, including 'distance' and 'max amplitude' columns.
 
     Returns:
     - A tuple of the filtered DataFrame and the normalization factor calculated.
     """
-    # Filter data for the specified frequency band (1.0, 1.25 Hz here as an example)
+    # Filter only the frequency band (1.0, 1.25) as a reference
+    normalizeBench = 200
     filtered_dataframe = df[df['frequency band'] == (1.0, 1.25)]
-    
-    # Calculate best fit line for log-transformed max amplitude against velocity squared
+    # Calculate the best fit line for the log-transformed filtered data
     filtered_log_max_amplitude = np.log10(filtered_dataframe['max amplitude'])
-    filtered_coefficients = np.polyfit(filtered_dataframe['velocity squared'], filtered_log_max_amplitude, 1)
+    filtered_coefficients = np.polyfit(filtered_dataframe['distance'], filtered_log_max_amplitude, 1)
     filtered_best_fit_line = np.poly1d(filtered_coefficients)
     
-    # Calculate normalization factor using a benchmark v^2 (e.g., at 200 m/s^2, arbitrary chosen here)
-    normalization_factor = filtered_best_fit_line(np.log10(200))  # Example benchmark v^2 value
+    # normalization factor
+    normalization_factor = filtered_best_fit_line(normalizeBench)
     
     return filtered_dataframe, normalization_factor
 
@@ -249,7 +265,7 @@ def normalized_max_amplitude_calc(row, normalization_factor):
     Calculates the normalized maximum amplitude for a single row/data point.
 
     Parameters:
-    - row: A row from the DataFrame containing 'max amplitude' and 'velocity squared' data.
+    - row: A row from the DataFrame containing 'max amplitude' and 'distance' data.
     - normalization_factor: The calculated normalization factor to apply.
 
     Returns:
@@ -257,30 +273,40 @@ def normalized_max_amplitude_calc(row, normalization_factor):
     """
     return np.log10(row['max amplitude']) - normalization_factor
 
-def save_dataframe_to_file(dataframe, filename="near_field_df.pkl"):
+def save_dataframe_to_file(dataframe, directory="/Users/hkunwer/Documents/research/EQenergy/Attenuation/V2 Max Amps", base_filename="near_field_df.pkl"):
     """
-    Saves a DataFrame to a file. If the file exists, appends the new data to the existing DataFrame.
-    
+    Saves a DataFrame to a file in the specified directory. If "near_field_df.pkl" exists in the directory, appends the new data to it.
+    If the file doesn't exist, creates a new file with a timestamp to avoid potential overwriting.
+
     Parameters:
     - dataframe: The DataFrame to be saved or appended.
-    - filename: The name of the file to save the DataFrame to. Defaults to 'near_field_df.pkl'.
+    - directory: The directory where the file is saved or to be saved. Defaults to the specified path.
+    - base_filename: The base name of the file to save the DataFrame to. Defaults to 'near_field_df.pkl'.
     """
-    try:
-        # Attempt to load an existing DataFrame from the file
-        existing_dataframe = pd.read_pickle(filename)
-        print("Completed: Loading existing dataframe.")
+    if dataframe.empty:
+        print("The DataFrame is empty. No data to save.")
+        return
 
-        # Append the new data to the existing DataFrame
-        combined_dataframe = pd.concat([existing_dataframe, dataframe], ignore_index=True)
-        combined_dataframe.to_pickle(filename)
-        print(f"Completed: Appended data to {filename} successfully.")
-    except FileNotFoundError:
-        # If the file does not exist, save the new DataFrame as the file
-        dataframe.to_pickle(filename)
-        print(f"File {filename} not found. Created new file with provided dataframe.")
+    # Generate the full file path
+    file_path = os.path.join(directory, base_filename)
+
+    try:
+        # Check if the file already exists in the specified directory
+        if os.path.exists(file_path):
+            # Load the existing DataFrame and append the new data
+            existing_dataframe = pd.read_pickle(file_path)
+            combined_dataframe = pd.concat([existing_dataframe, dataframe], ignore_index=True)
+            # Save the combined DataFrame back to the original file
+            combined_dataframe.to_pickle(file_path)
+            print(f"Data appended to {file_path} successfully.")
+        else:
+            # If the file does not exist, save the new DataFrame as the file
+            dataframe.to_pickle(file_path)
+            print(f"File {file_path} not found. Created new file with provided dataframe.")
+
     except Exception as e:
-        # For any other exceptions, provide an error message and do not modify the existing file
-        print(f"An error occurred while trying to append/save the dataframe: {e}.")
+        # For any other exceptions, provide an error message
+        print(f"An error occurred while trying to save the dataframe: {e}.")
 
 # def event_normalization_plot(normalized_dataframe, event_name): #Create plots showing all traces and their distribution across different freq bands
     
